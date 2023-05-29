@@ -1,15 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:kliniku/notificationService.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
-class DetailDokter extends StatefulWidget {
-  const DetailDokter({Key? key}) : super(key: key);
+class DetailDokter extends StatelessWidget {
+  final String nama;
+  final String spesialis;
+  final String lokasi;
+  final String tanggal;
+  final String waktu;
+  const DetailDokter(
+      {Key? key,
+      required this.nama,
+      required this.spesialis,
+      required this.lokasi,
+      required this.tanggal,
+      required this.waktu})
+      : super(key: key);
 
-  @override
-  _DetailDokterState createState() => _DetailDokterState();
-}
-
-class _DetailDokterState extends State<DetailDokter> {
-
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,10 +47,10 @@ class _DetailDokterState extends State<DetailDokter> {
                     SizedBox(
                       height: 10,
                     ),
-                    Text('Nama Dokter',
+                    Text('$nama',
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold)),
-                    Text('Spesialis')
+                    Text('$spesialis')
                   ],
                 ),
               ),
@@ -60,7 +69,7 @@ class _DetailDokterState extends State<DetailDokter> {
                     child: Column(
                       children: [
                         Container(
-                          height: 100,
+                          height: MediaQuery.of(context).size.height * 0.11,
                           child: Row(
                             children: [
                               CircleAvatar(backgroundColor: Colors.white),
@@ -72,13 +81,13 @@ class _DetailDokterState extends State<DetailDokter> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        '21 Desember 2022',
+                                        '$tanggal',
                                         style: TextStyle(
                                             fontSize: 17,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Text('Rumah Sakit Bandung'),
-                                      Text('08:00 - 10:00'),
+                                      Text('$lokasi'),
+                                      Text('$waktu'),
                                     ],
                                   )),
                               Expanded(
@@ -100,6 +109,16 @@ class _DetailDokterState extends State<DetailDokter> {
                                         showDialog(
                                           context: context,
                                           builder: (context) {
+                                            final controller_nama =
+                                                TextEditingController();
+                                            final controller_nama_dokter =
+                                                TextEditingController();
+                                            final controller_lokasi =
+                                                TextEditingController();
+                                            final controller_tanggal =
+                                                TextEditingController();
+                                            final controller_waktu =
+                                                TextEditingController();
                                             return AlertDialog(
                                               scrollable: true,
                                               title: Text('Daftar'),
@@ -109,7 +128,9 @@ class _DetailDokterState extends State<DetailDokter> {
                                                 child: Form(
                                                   child: Column(
                                                     children: <Widget>[
-                                                      TextFormField(
+                                                      TextField(
+                                                        controller:
+                                                            controller_nama,
                                                         decoration:
                                                             InputDecoration(
                                                           labelText: 'Nama',
@@ -117,21 +138,45 @@ class _DetailDokterState extends State<DetailDokter> {
                                                               .account_box),
                                                         ),
                                                       ),
-                                                      TextFormField(
-                                                        decoration:
-                                                            InputDecoration(
-                                                          labelText: 'No.KTP',
-                                                          icon: Icon(Icons
-                                                              .credit_card),
-                                                        ),
-                                                      ),
-                                                      TextFormField(
+                                                      TextField(
+                                                        controller:
+                                                            controller_nama_dokter,
                                                         decoration:
                                                             InputDecoration(
                                                           labelText:
-                                                              'Nomor Telepon',
-                                                          icon:
-                                                              Icon(Icons.call),
+                                                              'Nama Dokter',
+                                                          icon: Icon(Icons
+                                                              .medical_information),
+                                                        ),
+                                                      ),
+                                                      TextField(
+                                                        controller:
+                                                            controller_lokasi,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          labelText: 'Lokasi',
+                                                          icon: Icon(Icons
+                                                              .location_city),
+                                                        ),
+                                                      ),
+                                                      TextField(
+                                                        controller:
+                                                            controller_tanggal,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          labelText: 'Tanggal',
+                                                          icon: Icon(Icons
+                                                              .calendar_month),
+                                                        ),
+                                                      ),
+                                                      TextField(
+                                                        controller:
+                                                            controller_waktu,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          labelText: 'Waktu',
+                                                          icon: Icon(
+                                                              Icons.schedule),
                                                         ),
                                                       ),
                                                     ],
@@ -139,30 +184,37 @@ class _DetailDokterState extends State<DetailDokter> {
                                                 ),
                                               ),
                                               actions: [
-                                                TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(
-                                                          context, 'Cancel'),
-                                                  child: const Text('Cancel',
-                                                      style: TextStyle(
-                                                          color: Colors
-                                                              .greenAccent)),
-                                                ),
                                                 ElevatedButton(
-                                                  style: const ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStatePropertyAll<
-                                                                Color>(
-                                                            Colors.greenAccent),
-                                                  ),
-                                                  onPressed: () =>
-                                                      Navigator.pop(
-                                                          context, 'OK'),
-                                                  child: const Text(
-                                                    'Submit',
-                                                    style: TextStyle(
-                                                        color: Colors.black),
-                                                  ),
+                                                  onPressed: () {
+                                                    Map<String, dynamic>
+                                                        dataToSave = {
+                                                      'nama':
+                                                          controller_nama.text,
+                                                      'nama_dokter':
+                                                          controller_nama_dokter
+                                                              .text,
+                                                      'lokasi':
+                                                          controller_lokasi
+                                                              .text,
+                                                      'tanggal':
+                                                          controller_tanggal
+                                                              .text,
+                                                      'waktu':
+                                                          controller_waktu.text
+                                                    };
+                                                    FirebaseFirestore.instance
+                                                        .collection('riwayat')
+                                                        .add(dataToSave);
+                                                    Navigator.pop(context);
+                                                    final snackBar = SnackBar(
+                                                      content: const Text(
+                                                          'Berhasil Mendaftar'),
+                                                    );
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(snackBar);
+                                                  },
+                                                  child: Text('Submit'),
                                                 ),
                                               ],
                                             );

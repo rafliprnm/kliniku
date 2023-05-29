@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
-class DetailRumahSakit extends StatefulWidget {
-  const DetailRumahSakit({Key? key}) : super(key: key);
+class DetailRumahSakit extends StatelessWidget {
+  final String nama;
+  final String lokasi;
+  final String alamat;
+  final String telpon;
+  const DetailRumahSakit({Key? key, required this.nama, required this.lokasi, required this.alamat, required this.telpon}) : super(key: key);
 
-  @override
-  _DetailRumahSakitState createState() => _DetailRumahSakitState();
-}
-
-class _DetailRumahSakitState extends State<DetailRumahSakit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +35,7 @@ class _DetailRumahSakitState extends State<DetailRumahSakit> {
                     SizedBox(
                       height: 10,
                     ),
-                    Text('Nama Rumah Sakit',
+                    Text('$nama',
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold)),
                   ],
@@ -75,7 +74,7 @@ class _DetailRumahSakitState extends State<DetailRumahSakit> {
                                             fontWeight: FontWeight.bold),
                                       ),
                                       Text(
-                                          'Jl. Cihampelas No.161, Cipaganti, Kecamatan Coblong, Kota Bandung, Jawa Barat 40131'),
+                                          '$alamat'),
                                     ],
                                   )),
                               Expanded(
@@ -121,7 +120,7 @@ class _DetailRumahSakitState extends State<DetailRumahSakit> {
                                             fontSize: 17,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Text('(022) 2034386-9'),
+                                      Text('$telpon'),
                                     ],
                                   )),
                               Expanded(

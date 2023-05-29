@@ -1,14 +1,20 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slider/carousel.dart';
 import 'package:flutter_image_slider/indicator/Circle.dart';
 import 'package:kliniku/artikelBeritaPage.dart';
+import 'package:kliniku/firebase_options.dart';
 import 'package:kliniku/jadwalDokterPage.dart';
 import 'package:kliniku/konsultasiPage.dart';
 import 'package:kliniku/notifikasiPage.dart';
 import 'package:kliniku/riwayatPage.dart';
 import 'package:kliniku/rumahSakitPage.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -22,6 +28,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       initialRoute: '/',
+      debugShowCheckedModeBanner: false,
       routes: {
         '/': (context) => const MyHomePage(title: 'kliniku'),
         '/jadwalDokter': (context) => const JadwalDokter(),
@@ -261,54 +268,59 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
+            Column(
+              children: <Widget>[
+                SizedBox(
+                  width: double.infinity,
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 10, left: 10),
+                    child: Text(
+                      'Promo Menarik',
+                      textAlign: TextAlign.left,
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ],
+            ),
             Container(
-              height: 100,
+              height: 200,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(left: 5, right: 5),
-                    color: Colors.orangeAccent,
-                    height: 100,
-                    width: 150,
-                    child: const Center(
-                        child: Text(
-                      'Item 1',
-                      style: TextStyle(fontSize: 18, color: Colors.white),
-                    )),
+                    height: 200,
+                    width: 250,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/1.png'),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 5, right: 5),
-                    color: Colors.orangeAccent,
-                    height: 100,
-                    width: 150,
-                    child: const Center(
-                        child: Text(
-                      'Item 1',
-                      style: TextStyle(fontSize: 18, color: Colors.white),
-                    )),
+                    height: 200,
+                    width: 250,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/2.png'),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 5, right: 5),
-                    color: Colors.orangeAccent,
-                    height: 100,
-                    width: 150,
-                    child: const Center(
-                        child: Text(
-                      'Item 1',
-                      style: TextStyle(fontSize: 18, color: Colors.white),
-                    )),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 5, right: 5),
-                    color: Colors.orangeAccent,
-                    height: 100,
-                    width: 150,
-                    child: const Center(
-                        child: Text(
-                      'Item 1',
-                      style: TextStyle(fontSize: 18, color: Colors.white),
-                    )),
+                    height: 200,
+                    width: 250,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/3.png'),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
                   ),
                 ],
               ),

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "867295840104",
+    "project_id": "kliniku-67c42",
+    "storage_bucket": "kliniku-67c42.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867295840104:android:f3412160cadb044c53b8dd",
+        "android_client_info": {
+          "package_name": "com.example.kliniku"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "867295840104-er50o03bk082e6irk5iltd9rt380sv98.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsyVf_CL_ESQdrT1yTU1YhxUP76Gz48k8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "867295840104-er50o03bk082e6irk5iltd9rt380sv98.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

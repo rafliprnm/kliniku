@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:kliniku/notificationService.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
-class DetailDokter extends StatelessWidget {
+class DetailDokter extends StatefulWidget {
   final String nama;
   final String spesialis;
   final String lokasi;
@@ -19,6 +20,12 @@ class DetailDokter extends StatelessWidget {
       required this.waktu})
       : super(key: key);
 
+  @override
+  State<DetailDokter> createState() => _DetailDokterState();
+}
+
+class _DetailDokterState extends State<DetailDokter> {
+  bool _validate = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,10 +54,10 @@ class DetailDokter extends StatelessWidget {
                     SizedBox(
                       height: 10,
                     ),
-                    Text('$nama',
+                    Text('${widget.nama}',
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold)),
-                    Text('$spesialis')
+                    Text('${widget.spesialis}')
                   ],
                 ),
               ),
@@ -81,13 +88,13 @@ class DetailDokter extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        '$tanggal',
+                                        '${widget.tanggal}',
                                         style: TextStyle(
                                             fontSize: 17,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Text('$lokasi'),
-                                      Text('$waktu'),
+                                      Text('${widget.lokasi}'),
+                                      Text('${widget.waktu}'),
                                     ],
                                   )),
                               Expanded(
@@ -119,6 +126,14 @@ class DetailDokter extends StatelessWidget {
                                                 TextEditingController();
                                             final controller_waktu =
                                                 TextEditingController();
+                                            controller_nama_dokter.text =
+                                                '${widget.nama}';
+                                            controller_lokasi.text =
+                                                '${widget.lokasi}';
+                                            controller_tanggal.text =
+                                                '${widget.tanggal}';
+                                            controller_waktu.text =
+                                                '${widget.waktu}';
                                             return AlertDialog(
                                               scrollable: true,
                                               title: Text('Daftar'),
@@ -133,9 +148,13 @@ class DetailDokter extends StatelessWidget {
                                                             controller_nama,
                                                         decoration:
                                                             InputDecoration(
-                                                          labelText: 'Nama',
+                                                          labelText:
+                                                              'Nama Pasien',
                                                           icon: Icon(Icons
                                                               .account_box),
+                                                          errorText: _validate
+                                                              ? 'Masukkan Nama Pasien'
+                                                              : null,
                                                         ),
                                                       ),
                                                       TextField(
@@ -148,6 +167,7 @@ class DetailDokter extends StatelessWidget {
                                                           icon: Icon(Icons
                                                               .medical_information),
                                                         ),
+                                                        readOnly: true,
                                                       ),
                                                       TextField(
                                                         controller:
@@ -158,6 +178,7 @@ class DetailDokter extends StatelessWidget {
                                                           icon: Icon(Icons
                                                               .location_city),
                                                         ),
+                                                        readOnly: true,
                                                       ),
                                                       TextField(
                                                         controller:
@@ -168,6 +189,43 @@ class DetailDokter extends StatelessWidget {
                                                           icon: Icon(Icons
                                                               .calendar_month),
                                                         ),
+                                                        readOnly: true,
+                                                        // onTap: () async {
+                                                        //   DateTime? pickdate =
+                                                        //       await showDatePicker(
+                                                        //           context:
+                                                        //               context,
+                                                        //           initialDate:
+                                                        //               DateTime
+                                                        //                   .now(),
+                                                        //           firstDate:
+                                                        //               DateTime(
+                                                        //                   2023),
+                                                        //           lastDate:
+                                                        //               DateTime(
+                                                        //                   2100));
+
+                                                        //   if (pickdate !=
+                                                        //       null) {
+                                                        //     print(
+                                                        //         pickdate); //pickdate output format => 2021-03-10 00:00:00.000
+                                                        //     String
+                                                        //         formattedDate =
+                                                        //         DateFormat(
+                                                        //                 'yyyy-MM-dd')
+                                                        //             .format(
+                                                        //                 pickdate);
+                                                        //     print(
+                                                        //         formattedDate); //formatted date output using intl package =>  2021-03-16
+                                                        //     //you can implement different kind of Date Format here according to your requirement
+
+                                                        //     setState(() {
+                                                        //       controller_tanggal
+                                                        //               .text =
+                                                        //           formattedDate; //set output date to TextField value.
+                                                        //     });
+                                                        //   }
+                                                        // },
                                                       ),
                                                       TextField(
                                                         controller:
@@ -178,6 +236,7 @@ class DetailDokter extends StatelessWidget {
                                                           icon: Icon(
                                                               Icons.schedule),
                                                         ),
+                                                        readOnly: true,
                                                       ),
                                                     ],
                                                   ),
@@ -186,33 +245,43 @@ class DetailDokter extends StatelessWidget {
                                               actions: [
                                                 ElevatedButton(
                                                   onPressed: () {
-                                                    Map<String, dynamic>
-                                                        dataToSave = {
-                                                      'nama':
-                                                          controller_nama.text,
-                                                      'nama_dokter':
-                                                          controller_nama_dokter
-                                                              .text,
-                                                      'lokasi':
-                                                          controller_lokasi
-                                                              .text,
-                                                      'tanggal':
-                                                          controller_tanggal
-                                                              .text,
-                                                      'waktu':
-                                                          controller_waktu.text
-                                                    };
-                                                    FirebaseFirestore.instance
-                                                        .collection('riwayat')
-                                                        .add(dataToSave);
-                                                    Navigator.pop(context);
-                                                    final snackBar = SnackBar(
-                                                      content: const Text(
-                                                          'Berhasil Mendaftar'),
-                                                    );
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(snackBar);
+                                                    setState(() {
+                                                      controller_nama
+                                                              .text.isEmpty
+                                                          ? _validate = true
+                                                          : _validate = false;
+                                                    });
+                                                    if (_validate == false) {
+                                                      Map<String, dynamic>
+                                                          dataToSave = {
+                                                        'nama': controller_nama
+                                                            .text,
+                                                        'nama_dokter':
+                                                            controller_nama_dokter
+                                                                .text,
+                                                        'lokasi':
+                                                            controller_lokasi
+                                                                .text,
+                                                        'tanggal':
+                                                            controller_tanggal
+                                                                .text,
+                                                        'waktu':
+                                                            controller_waktu
+                                                                .text
+                                                      };
+                                                      FirebaseFirestore.instance
+                                                          .collection('riwayat')
+                                                          .add(dataToSave);
+                                                      Navigator.pop(context);
+                                                      final snackBar = SnackBar(
+                                                        content: const Text(
+                                                            'Berhasil Mendaftar'),
+                                                      );
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              snackBar);
+                                                    }
                                                   },
                                                   child: Text('Submit'),
                                                 ),

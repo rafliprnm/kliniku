@@ -37,6 +37,7 @@ dependencies:
   flutter_image_slider: ^0.0.2
   flutter_local_notifications: ^13.0.0
   getwidget: ^3.0.1
+  intl: ^0.18.1
 
 
   # The following adds the Cupertino Icons font to your application.

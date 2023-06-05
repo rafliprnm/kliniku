@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_slider/carousel.dart';
 import 'package:flutter_image_slider/indicator/Circle.dart';
 import 'package:kliniku/artikelBeritaPage.dart';
+import 'package:kliniku/detailBerita.dart';
 import 'package:kliniku/firebase_options.dart';
 import 'package:kliniku/jadwalDokterPage.dart';
 import 'package:kliniku/konsultasiPage.dart';
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
         '/konsultasi': (context) => const Konsultasi(),
         '/artikelBerita': (context) => const ArtikelBerita(),
         '/riwayat': (context) => const Riwayat(),
-        '/notifikasi': (context) => const Notifikasi()
+        '/notifikasi': (context) => const Notifikasi(),
       },
     );
   }

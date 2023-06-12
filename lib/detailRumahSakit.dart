@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailRumahSakit extends StatelessWidget {
   final String nama;
@@ -90,7 +91,7 @@ class DetailRumahSakit extends StatelessWidget {
                                       ),
                                       child: Icon(Icons.directions),
                                       onPressed: () {
-                                        // ...
+                                        launch('https://maps.app.goo.gl/EFTApZdDak6Etw3k6');
                                       },
                                     ),
                                   ],

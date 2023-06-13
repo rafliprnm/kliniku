@@ -29,6 +29,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  camera: ^0.10.5+2
   card_slider: ^1.0.5
   cloud_firestore: ^4.6.0
   firebase_core: ^2.11.0

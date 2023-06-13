@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Konsultasi extends StatefulWidget {
   const Konsultasi({Key? key}) : super(key: key);
@@ -64,6 +65,9 @@ class _KonsultasiState extends State<Konsultasi> {
                     title: Text(_data[index].data()['nama'].toString()),
                     subtitle: Text(_data[index].data()['spesialis'].toString()),
                     trailing: Icon(Icons.message),
+                    onTap: () {
+                      launch('https://wa.me/+6281382819202');
+                    },
                   ),
                 );
               },

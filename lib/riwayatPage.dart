@@ -1,5 +1,8 @@
+import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:kliniku/scanDaftar.dart';
+import 'main.dart';
 
 class Riwayat extends StatefulWidget {
   const Riwayat({Key? key}) : super(key: key);
@@ -71,6 +74,12 @@ class _RiwayatState extends State<Riwayat> {
                             Text(_data[index].data()['waktu'].toString()),
                           ],
                         ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ScanDaftar()));
+                        },
                       ),
                     ));
               },

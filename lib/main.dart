@@ -10,12 +10,15 @@ import 'package:kliniku/konsultasiPage.dart';
 import 'package:kliniku/notifikasiPage.dart';
 import 'package:kliniku/riwayatPage.dart';
 import 'package:kliniku/rumahSakitPage.dart';
+import 'package:camera/camera.dart';
 
+late List<CameraDescription> cameras;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  cameras = await availableCameras();
   runApp(const MyApp());
 }
 
